@@ -5,7 +5,15 @@ from filterpy.kalman import unscented_transform
 from numpy import dot
 from copy import deepcopy
 
-
+def format_observation(prob_vector, data_format="cartesian"):
+    if data_format == "polar":
+        x_complex_signal, z_complex_signal, interleaved_complex_signal = prob_vec_to_signals(prob_vector)
+        angles = np.angle(x_complex_signal), np.angle(z_complex_signal), np.angle(interleaved_complex_signal)
+        norms = np.abs(x_complex_signal), np.abs(z_complex_signal), np.abs(interleaved_complex_signal)
+        return np.array(angles + norms)
+    elif data_format == "cartesian":
+        return prob_vector
+    
 class MyUKF(UnscentedKalmanFilter):
     def __init__(self, num_params, num_circs):
         self.dt=1
@@ -222,6 +230,4 @@ class KalmanFilter:
                 x = x_post
 
             
-        
 
-        

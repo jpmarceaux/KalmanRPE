@@ -186,15 +186,7 @@ def prob_vec_to_signals(prob_vector):
     interleaved_complex_signal = (1-2*prob_vector[4]) - 1j*(1-2*prob_vector[5])
     return x_complex_signal, z_complex_signal, interleaved_complex_signal
 
-def format_observation(prob_vector, data_format="cartesian"):
-    if data_format == "polar":
-        x_complex_signal, z_complex_signal, interleaved_complex_signal = prob_vec_to_signals(prob_vector)
-        angles = np.angle(x_complex_signal), np.angle(z_complex_signal), np.angle(interleaved_complex_signal)
-        norms = np.abs(x_complex_signal), np.abs(z_complex_signal), np.abs(interleaved_complex_signal)
-        return np.array(angles + norms)
-    elif data_format == "cartesian":
-        return prob_vector
-    
+
 
 def binom_loglikelihood(estimate, dataset, circuits, gate_depolarization=0.0, spam_depolarization=0.0):
     model = make_pygsti_model(estimate, gate_depolarization, spam_depolarization)
